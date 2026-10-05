@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Electronics Calculator</title>
+
+  <!-- Modern Engineering Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Custom Styling -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Top Instrument Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="rgba(0, 229, 255, 0.2)" stroke="#00e5ff"></path>
+          </svg>
+        </div>
+        <div>
+          <h1 class="brand-title">Electronics Calculator</h1>
+          <p class="brand-subtitle">Benchtop Engineering &amp; Circuit Tool</p>
+        </div>
+      </div>
+
+      <div class="instrument-status">
+        <span class="status-indicator"></span>
+        <span class="status-text">INSTRUMENT READY &bull; STANDALONE</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation / Quick Jump Bar -->
+  <nav class="quick-nav" aria-label="Calculator navigation">
+    <div class="nav-container">
+      <button class="nav-btn active" data-target="ohms-law-section">
+        <span class="nav-symbol">&Omega;</span>
+        <span>Ohm's Law</span>
+      </button>
+      <button class="nav-btn" data-target="power-section">
+        <span class="nav-symbol">&prop;</span>
+        <span>Power Calculator</span>
+      </button>
+      <button class="nav-btn" data-target="resistor-section">
+        <span class="nav-symbol">&#9639;</span>
+        <span>Resistor Color Code</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Calculator Suite -->
+  <main class="main-content">
+    <div class="calculators-grid">
+
+      <!-- ========================================== -->
+      <!-- SECTION 1: OHM'S LAW CALCULATOR           -->
+      <!-- ========================================== -->
+      <section id="ohms-law-section" class="calc-card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="card-badge">CORE LAW</span>
+            <h2 class="card-title">Ohm's Law Calculator</h2>
+          </div>
+          <div class="card-formula-pill" title="Fundamental relationship">
+            <span>V = I &times; R</span>
+          </div>
+        </div>
+
+        <p class="card-description">
+          Select what you want to calculate, enter the two known values, and solve for the unknown parameter.
+        </p>
+
+        <!-- Calculation Mode Selector -->
+        <div class="calc-mode-group">
+          <span class="group-label">Solve For:</span>
+          <div class="radio-pill-group" role="radiogroup" aria-label="Solve parameter">
+            <label class="radio-pill">
+              <input type="radio" name="ohms-target" value="voltage" checked>
+              <span class="pill-content">
+                <strong>Voltage (V)</strong>
+                <small>V = I &times; R</small>
+              </span>
+            </label>
+            <label class="radio-pill">
+              <input type="radio" name="ohms-target" value="current">
+              <span class="pill-content">
+                <strong>Current (I)</strong>
+                <small>I = V / R</small>
+              </span>
+            </label>
+            <label class="radio-pill">
+              <input type="radio" name="ohms-target" value="resistance">
+              <span class="pill-content">
+                <strong>Resistance (R)</strong>
+                <small>R = V / I</small>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Dynamic Inputs for Ohm's Law -->
+        <div class="inputs-grid" id="ohms-inputs-container">
+          <!-- Input 1 -->
+          <div class="input-field-group" id="ohms-group-1">
+            <label id="ohms-label-1" for="ohms-input-1">Current (I):</label>
+            <div class="input-with-unit">
+              <input type="number" id="ohms-input-1" placeholder="e.g. 0.5" step="any">
+              <span class="unit-badge" id="ohms-unit-1">A</span>
+            </div>
+            <span class="field-hint" id="ohms-hint-1">Amperes</span>
+          </div>
+
+          <!-- Input 2 -->
+          <div class="input-field-group" id="ohms-group-2">
+            <label id="ohms-label-2" for="ohms-input-2">Resistance (R):</label>
+            <div class="input-with-unit">
+              <input type="number" id="ohms-input-2" placeholder="e.g. 24" step="any">
+              <span class="unit-badge" id="ohms-unit-2">&Omega;</span>
+            </div>
+            <span class="field-hint" id="ohms-hint-2">Ohms</span>
+          </div>
+        </div>
+
+        <!-- Validation / Error Box -->
+        <div id="ohms-error" class="alert-box error" style="display: none;"></div>
+
+        <!-- Action Buttons -->
+        <div class="btn-group">
+          <button id="btn-calc-ohms" class="btn btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            Calculate
+          </button>
+          <button id="btn-reset-ohms" class="btn btn-secondary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+              <path d="M3 3v5h5"></path>
+            </svg>
+            Reset
+          </button>
+        </div>
+
+        <!-- Instrument Digital Readout Screen -->
+        <div class="digital-display" id="ohms-display">
+          <div class="display-topbar">
+            <span class="display-label">DIGITAL MULTIMETER READOUT</span>
+            <span class="display-status">ACTIVE</span>
+          </div>
+          <div class="display-main">
+            <span class="display-value" id="ohms-result-val">--</span>
+            <span class="display-unit" id="ohms-result-unit">V</span>
+          </div>
+          <div class="display-formula-step" id="ohms-result-step">
+            Select parameter and click Calculate.
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ========================================== -->
+      <!-- SECTION 2: POWER CALCULATOR                -->
+      <!-- ========================================== -->
+      <section id="power-section" class="calc-card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="card-badge badge-amber">ELECTRICAL POWER</span>
+            <h2 class="card-title">Power Calculator</h2>
+          </div>
+          <div class="card-formula-pill" title="Joule / Electric power formula">
+            <span>P = V &times; I</span>
+          </div>
+        </div>
+
+        <p class="card-description">
+          Enter the operating Voltage and Current to calculate electrical power consumption or dissipation in Watts.
+        </p>
+
+        <!-- Inputs for Power -->
+        <div class="inputs-grid">
+          <!-- Voltage Input -->
+          <div class="input-field-group">
+            <label for="power-voltage">Voltage (V):</label>
+            <div class="input-with-unit">
+              <input type="number" id="power-voltage" placeholder="e.g. 12" step="any">
+              <span class="unit-badge">V</span>
+            </div>
+            <span class="field-hint">Potential difference in Volts</span>
+          </div>
+
+          <!-- Current Input -->
+          <div class="input-field-group">
+            <label for="power-current">Current (I):</label>
+            <div class="input-with-unit">
+              <input type="number" id="power-current" placeholder="e.g. 2.5" step="any">
+              <span class="unit-badge">A</span>
+            </div>
+            <span class="field-hint">Electric current in Amperes</span>
+          </div>
+        </div>
+
+        <!-- Validation / Error Box -->
+        <div id="power-error" class="alert-box error" style="display: none;"></div>
+
+        <!-- Action Buttons -->
+        <div class="btn-group">
+          <button id="btn-calc-power" class="btn btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+            Calculate Power
+          </button>
+          <button id="btn-reset-power" class="btn btn-secondary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+              <path d="M3 3v5h5"></path>
+            </svg>
+            Reset
+          </button>
+        </div>
+
+        <!-- Instrument Digital Readout Screen -->
+        <div class="digital-display" id="power-display">
+          <div class="display-topbar">
+            <span class="display-label">POWER METER READOUT</span>
+            <span class="display-status">ACTIVE</span>
+          </div>
+          <div class="display-main">
+            <span class="display-value" id="power-result-val">--</span>
+            <span class="display-unit" id="power-result-unit">W</span>
+          </div>
+          <div class="display-formula-step" id="power-result-step">
+            Enter Voltage &amp; Current, then click Calculate Power.
+          </div>
+        </div>
+
+        <!-- Helpful engineering note -->
+        <div class="formula-helper-box">
+          <span class="helper-icon">&iukcy;</span>
+          <div class="helper-text">
+            <strong>Engineering Tip:</strong> 1 Watt (W) = 1 Joule per second. When resistance is known, power can also
+            be expressed as <code>P = I&sup2; &times; R</code> or <code>P = V&sup2; / R</code>.
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ========================================== -->
+      <!-- SECTION 3: RESISTOR COLOR CODE CALCULATOR  -->
+      <!-- ========================================== -->
+      <section id="resistor-section" class="calc-card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="card-badge badge-emerald">PASSIVE COMPONENTS</span>
+            <h2 class="card-title">Resistor Color Code Calculator</h2>
+          </div>
+          <div class="card-formula-pill">
+            <span>4-Band Standard</span>
+          </div>
+        </div>
+
+        <p class="card-description">
+          Select the color for each band on your 4-band resistor to calculate nominal resistance, multiplier, and
+          manufacturing tolerance.
+        </p>
+
+        <!-- Visual Resistor Graphic Representation -->
+        <div class="resistor-graphic-container" aria-label="Visual Resistor Preview">
+          <div class="resistor-svg-wrapper">
+            <svg class="resistor-svg" viewBox="0 0 500 130" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <!-- Shading for 3D Ceramic Resistor Body -->
+                <linearGradient id="leadShading" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#94a3b8" />
+                  <stop offset="50%" stop-color="#f8fafc" />
+                  <stop offset="100%" stop-color="#64748b" />
+                </linearGradient>
+                <linearGradient id="bodyShading" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#d6b88d" />
+                  <stop offset="30%" stop-color="#e8d5b7" />
+                  <stop offset="70%" stop-color="#cfb084" />
+                  <stop offset="100%" stop-color="#a68452" />
+                </linearGradient>
+              </defs>
+
+              <!-- Metal Terminal Leads -->
+              <rect x="10" y="60" width="100" height="10" rx="3" fill="url(#leadShading)" />
+              <rect x="390" y="60" width="100" height="10" rx="3" fill="url(#leadShading)" />
+
+              <!-- Resistor Ceramic Body Shape -->
+              <path d="M 110,35 
+                       C 125,35 135,46 145,46 
+                       L 355,46 
+                       C 365,46 375,35 390,35 
+                       L 390,95 
+                       C 375,95 365,84 355,84 
+                       L 145,84 
+                       C 135,84 125,95 110,95 
+                       Z" fill="url(#bodyShading)" stroke="#8c6a38" stroke-width="1.5" />
+
+              <!-- Band 1: First Digit -->
+              <rect id="svg-band-1" x="145" y="46" width="22" height="38" rx="2" fill="#8B4513" />
+
+              <!-- Band 2: Second Digit -->
+              <rect id="svg-band-2" x="195" y="46" width="22" height="38" rx="2" fill="#9333EA" />
+
+              <!-- Band 3: Multiplier -->
+              <rect id="svg-band-3" x="245" y="46" width="22" height="38" rx="2" fill="#DC2626" />
+
+              <!-- Band 4: Tolerance -->
+              <rect id="svg-band-4" x="325" y="46" width="22" height="38" rx="2" fill="#D4AF37" />
+            </svg>
+          </div>
+          <div class="band-indicator-labels">
+            <span class="label-band-1">1st Band</span>
+            <span class="label-band-2">2nd Band</span>
+            <span class="label-band-3">Multiplier</span>
+            <span class="label-band-4">Tolerance</span>
+          </div>
+        </div>
+
+        <!-- Dropdowns for the 4 bands -->
+        <div class="color-dropdowns-grid">
+          <!-- Band 1 -->
+          <div class="color-select-group">
+            <label for="band1-select">
+              <span class="swatch-preview" id="swatch-1"></span>
+              1st Band (Digit)
+            </label>
+            <select id="band1-select" class="color-select">
+              <option value="1" data-color="#8B4513" selected>Brown (1)</option>
+              <option value="2" data-color="#DC2626">Red (2)</option>
+              <option value="3" data-color="#F97316">Orange (3)</option>
+              <option value="4" data-color="#EAB308">Yellow (4)</option>
+              <option value="5" data-color="#16A34A">Green (5)</option>
+              <option value="6" data-color="#2563EB">Blue (6)</option>
+              <option value="7" data-color="#9333EA">Violet (7)</option>
+              <option value="8" data-color="#6B7280">Gray (8)</option>
+              <option value="9" data-color="#F8FAFC">White (9)</option>
+            </select>
+          </div>
+
+          <!-- Band 2 -->
+          <div class="color-select-group">
+            <label for="band2-select">
+              <span class="swatch-preview" id="swatch-2"></span>
+              2nd Band (Digit)
+            </label>
+            <select id="band2-select" class="color-select">
+              <option value="0" data-color="#111827">Black (0)</option>
+              <option value="1" data-color="#8B4513">Brown (1)</option>
+              <option value="2" data-color="#DC2626">Red (2)</option>
+              <option value="3" data-color="#F97316">Orange (3)</option>
+              <option value="4" data-color="#EAB308">Yellow (4)</option>
+              <option value="5" data-color="#16A34A">Green (5)</option>
+              <option value="6" data-color="#2563EB">Blue (6)</option>
+              <option value="7" data-color="#9333EA" selected>Violet (7)</option>
+              <option value="8" data-color="#6B7280">Gray (8)</option>
+              <option value="9" data-color="#F8FAFC">White (9)</option>
+            </select>
+          </div>
+
+          <!-- Band 3 (Multiplier) -->
+          <div class="color-select-group">
+            <label for="band3-select">
+              <span class="swatch-preview" id="swatch-3"></span>
+              3rd Band (Multiplier)
+            </label>
+            <select id="band3-select" class="color-select">
+              <option value="0.01" data-color="#94A3B8">Silver (&times; 0.01 &Omega;)</option>
+              <option value="0.1" data-color="#D4AF37">Gold (&times; 0.1 &Omega;)</option>
+              <option value="1" data-color="#111827">Black (&times; 1 &Omega;)</option>
+              <option value="10" data-color="#8B4513">Brown (&times; 10 &Omega;)</option>
+              <option value="100" data-color="#DC2626" selected>Red (&times; 100 &Omega;)</option>
+              <option value="1000" data-color="#F97316">Orange (&times; 1 k&Omega;)</option>
+              <option value="10000" data-color="#EAB308">Yellow (&times; 10 k&Omega;)</option>
+              <option value="100000" data-color="#16A34A">Green (&times; 100 k&Omega;)</option>
+              <option value="1000000" data-color="#2563EB">Blue (&times; 1 M&Omega;)</option>
+              <option value="10000000" data-color="#9333EA">Violet (&times; 10 M&Omega;)</option>
+              <option value="100000000" data-color="#6B7280">Gray (&times; 100 M&Omega;)</option>
+              <option value="1000000000" data-color="#F8FAFC">White (&times; 1 G&Omega;)</option>
+            </select>
+          </div>
+
+          <!-- Band 4 (Tolerance) -->
+          <div class="color-select-group">
+            <label for="band4-select">
+              <span class="swatch-preview" id="swatch-4"></span>
+              4th Band (Tolerance)
+            </label>
+            <select id="band4-select" class="color-select">
+              <option value="5" data-color="#D4AF37" selected>Gold (&plusmn; 5%)</option>
+              <option value="10" data-color="#94A3B8">Silver (&plusmn; 10%)</option>
+              <option value="1" data-color="#8B4513">Brown (&plusmn; 1%)</option>
+              <option value="2" data-color="#DC2626">Red (&plusmn; 2%)</option>
+              <option value="0.5" data-color="#16A34A">Green (&plusmn; 0.5%)</option>
+              <option value="0.25" data-color="#2563EB">Blue (&plusmn; 0.25%)</option>
+              <option value="0.1" data-color="#9333EA">Violet (&plusmn; 0.1%)</option>
+              <option value="0.05" data-color="#6B7280">Gray (&plusmn; 0.05%)</option>
+              <option value="20" data-color="#334155">None (&plusmn; 20%)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Buttons for Resistor -->
+        <div class="btn-group">
+          <button id="btn-calc-resistor" class="btn btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            Calculate Resistance
+          </button>
+          <button id="btn-reset-resistor" class="btn btn-secondary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+              <path d="M3 3v5h5"></path>
+            </svg>
+            Reset Default (4.7 k&Omega;)
+          </button>
+        </div>
+
+        <!-- Instrument Digital Readout Screen -->
+        <div class="digital-display" id="resistor-display">
+          <div class="display-topbar">
+            <span class="display-label">RESISTANCE READOUT</span>
+            <span class="display-status">ACTIVE</span>
+          </div>
+          <div class="display-main">
+            <span class="display-value" id="resistor-result-val">4.7 k&Omega;</span>
+            <span class="display-unit" id="resistor-result-tol">&plusmn; 5%</span>
+          </div>
+          <div class="display-details">
+            <div class="detail-row">
+              <span class="detail-name">Raw Resistance:</span>
+              <span class="detail-val" id="resistor-raw-val">4,700 &Omega;</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-name">Acceptable Range:</span>
+              <span class="detail-val" id="resistor-range-val">4,465 &Omega; &ndash; 4,935 &Omega;</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-name">Color Sequence:</span>
+              <span class="detail-val" id="resistor-colors-summary">Yellow &bull; Violet &bull; Red &bull; Gold</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /.calculators-grid -->
+  </main>
+
+  <!-- Small Footer as required -->
+  <footer class="app-footer">
+    <p>Electronics Calculator | HTML &bull; CSS &bull; JavaScript</p>
+  </footer>
+
+  <!-- Vanilla JavaScript Logic -->
+  <script src="script.js"></script>
+</body>
+
+</html>
